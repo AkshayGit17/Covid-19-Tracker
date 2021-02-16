@@ -4,8 +4,16 @@
   box-sizing: border-box;
 }
 
+body {
+  background: #f5f6fa;
+}
+
 .app__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.app__stats {
+  display: flex;
 }
