@@ -13,10 +13,21 @@ import Map from './components/Map/Map';
 function App() {
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState('worldwide');
+  const [countryInfo, setCountryInfo] = useState({});
+
+  console.log(countryInfo);
+
+  useEffect(() => {
+    const getWorldwideInfo = async () => {
+      const response = await fetch('https://disease.sh/v3/covid-19/all');
+      const data = await response.json();
+      setCountryInfo(data);
+    };
+    getWorldwideInfo(); //load worldwide info when the component is loaded for the first time
+  }, []);
 
   useEffect(() => {
     const getCountriesData = async () => {
-      //get all the countries data when the component is loaded for the first time
       const response = await fetch('https://disease.sh/v3/covid-19/countries');
       const data = await response.json();
 
@@ -32,12 +43,24 @@ function App() {
       setCountries(trimmedData);
     };
 
-    getCountriesData();
+    getCountriesData(); //get all the countries data when the component is loaded for the first time
   }, []);
 
-  const countryChangedHandler = (event) => {
+  const countryChangedHandler = async (event) => {
     event.preventDefault();
-    setCountry(event.target.value);
+
+    const countryName = event.target.value;
+
+    const url =
+      countryName === 'worldwide'
+        ? 'https://disease.sh/v3/covid-19/all'
+        : `https://disease.sh/v3/covid-19/countries/${countryName}`;
+
+    const response = await fetch(url); //on every selection get the country info
+    const data = await response.json();
+
+    setCountry(countryName);
+    setCountryInfo(data);
   };
 
   return (
@@ -66,13 +89,25 @@ function App() {
         </div>
         <div className='app__stats'>
           {/* Infobox for Cases*/}
-          <InfoBox title='Coronavirus Cases' today={100} total={400} />
+          <InfoBox
+            title='Coronavirus Cases'
+            today={countryInfo.todayCases}
+            total={countryInfo.cases}
+          />
 
           {/* Infobox for Recoveries*/}
-          <InfoBox title='Recovered' today={100} total={400} />
+          <InfoBox
+            title='Recovered'
+            today={countryInfo.todayRecovered}
+            total={countryInfo.recovered}
+          />
 
           {/* Infobox for Deaths*/}
-          <InfoBox title='Deaths' today={100} total={400} />
+          <InfoBox
+            title='Deaths'
+            today={countryInfo.todayDeaths}
+            total={countryInfo.deaths}
+          />
         </div>
 
         {/* Map */}

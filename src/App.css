@@ -8,6 +8,19 @@ body {
   background: #f5f6fa;
 }
 
+.app {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+@media (min-width: 768px) {
+  .app {
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+}
+
 .app__header {
   display: flex;
   justify-content: space-between;
@@ -16,4 +29,9 @@ body {
 
 .app__stats {
   display: flex;
+  justify-content: space-between;
+}
+
+.app__left {
+  flex: 0.9;
 }
