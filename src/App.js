@@ -9,11 +9,14 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import InfoBox from './components/InfoBox/InfoBox';
 import Map from './components/Map/Map';
+import Table from './components/Table/Table';
+import { sortData } from './util';
 
 function App() {
-  const [countries, setCountries] = useState([]);
-  const [country, setCountry] = useState('worldwide');
-  const [countryInfo, setCountryInfo] = useState({});
+  const [countries, setCountries] = useState([]); //used to hold all the countries to populate in the dropdown
+  const [country, setCountry] = useState('worldwide'); //used to hold the selected country
+  const [countryInfo, setCountryInfo] = useState({}); //used to hold the selected country info
+  const [tableData, setTableData] = useState([]); //used to hold all the countries to populate in the table
 
   console.log(countryInfo);
 
@@ -40,6 +43,7 @@ function App() {
         };
       });
 
+      setTableData(sortData(data, 'cases', 'DESC'));
       setCountries(trimmedData);
     };
 
@@ -117,6 +121,7 @@ function App() {
         <CardContent>
           {/* Table */}
           <h3>Live Cases by Country</h3>
+          <Table countries={tableData} />
           {/* Graph */}
           <h3>WorldWide new cases</h3>
         </CardContent>
