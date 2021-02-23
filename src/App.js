@@ -11,6 +11,7 @@ import InfoBox from './components/InfoBox/InfoBox';
 import Map from './components/Map/Map';
 import Table from './components/Table/Table';
 import { sortData } from './util';
+import LineGraph from './components/LineGraph/LineGraph';
 
 function App() {
   const [countries, setCountries] = useState([]); //used to hold all the countries to populate in the dropdown
@@ -124,6 +125,7 @@ function App() {
           <Table countries={tableData} />
           {/* Graph */}
           <h3>WorldWide new cases</h3>
+          <LineGraph />
         </CardContent>
       </Card>
     </div>
