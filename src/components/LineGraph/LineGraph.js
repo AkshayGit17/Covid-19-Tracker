@@ -1,7 +1,55 @@
 import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
+import numeral from 'numeral';
 
-const buildChartData = (data, type = 'cases') => {
+const options = {
+  legend: {
+    //legend displays data about the datasets that are appearing on the chart.
+    display: false,
+  },
+  elements: {
+    point: {
+      radius: 0, //point wont get rendered
+    },
+  },
+  maintainAspectRatio: false, //responsive
+  tooltips: {
+    mode: 'index',
+    intersect: false,
+    callbacks: {
+      label: function (tooltipItem, data) {
+        //to be displayed on the tooltip
+        return numeral(tooltipItem.value).format('+0,0');
+      },
+    },
+  },
+  scales: {
+    xAxes: [
+      {
+        type: 'time',
+        time: {
+          format: 'MM/DD/YY',
+          tooltipFormat: 'll', //Sep 4, 1986
+        },
+      },
+    ],
+    yAxes: [
+      {
+        gridLines: {
+          display: false, //hide horizontal lines
+        },
+        ticks: {
+          //each tick
+          callback: function (value, index, values) {
+            return numeral(value).format('0a');
+          },
+        },
+      },
+    ],
+  },
+};
+
+const buildChartData = (data, type) => {
   const chartData = [];
   let lastDataPoint;
 
@@ -18,7 +66,7 @@ const buildChartData = (data, type = 'cases') => {
   return chartData;
 };
 
-function LineGraph() {
+function LineGraph({ type = 'cases' }) {
   const [data, setdata] = useState([]);
 
   console.log(data);
@@ -26,16 +74,18 @@ function LineGraph() {
   useEffect(() => {
     fetch('https://disease.sh/v3/covid-19/historical/all?lastdays=120')
       .then((response) => response.json())
-      .then((data) => setdata(buildChartData(data)));
+      .then((data) => setdata(buildChartData(data, type)));
   }, []);
 
   return (
     <div>
       <Line
+        options={options}
         data={{
           datasets: [
             {
               backgroundColor: 'rgba(204,16,52,0.5)',
+              borderColor: '#CC1034',
               color: '#cc1034',
               data: data,
             },
