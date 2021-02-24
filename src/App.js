@@ -12,12 +12,15 @@ import Map from './components/Map/Map';
 import Table from './components/Table/Table';
 import { sortData } from './util';
 import LineGraph from './components/LineGraph/LineGraph';
+import 'leaflet/dist/leaflet.css';
 
 function App() {
   const [countries, setCountries] = useState([]); //used to hold all the countries to populate in the dropdown
   const [country, setCountry] = useState('worldwide'); //used to hold the selected country
   const [countryInfo, setCountryInfo] = useState({}); //used to hold the selected country info
   const [tableData, setTableData] = useState([]); //used to hold all the countries to populate in the table
+  const [mapCenter, setMapCenter] = useState([34.8076, -40.4796]); //used to hold selected countries lat nd long
+  const [mapZoom, setmapZoom] = useState(3); //used to hold zoom value of the map
 
   console.log(countryInfo);
 
@@ -66,6 +69,8 @@ function App() {
 
     setCountry(countryName);
     setCountryInfo(data);
+    setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
+    setmapZoom(3);
   };
 
   return (
@@ -116,7 +121,7 @@ function App() {
         </div>
 
         {/* Map */}
-        <Map />
+        <Map center={mapCenter} zoom={mapZoom} />
       </div>
       <Card className='app__right'>
         <CardContent>
@@ -125,7 +130,7 @@ function App() {
           <Table countries={tableData} />
           {/* Graph */}
           <h3>WorldWide new cases</h3>
-          <LineGraph />
+          <LineGraph className='app__graph' />
         </CardContent>
       </Card>
     </div>
