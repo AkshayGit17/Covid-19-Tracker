@@ -21,6 +21,7 @@ function App() {
   const [tableData, setTableData] = useState([]); //used to hold all the countries to populate in the table
   const [mapCenter, setMapCenter] = useState([34.8076, -40.4796]); //used to hold selected countries lat nd long
   const [mapZoom, setmapZoom] = useState(3); //used to hold zoom value of the map
+  const [mapCountries, setMapCountries] = useState([]);
 
   console.log(countryInfo);
 
@@ -47,6 +48,7 @@ function App() {
         };
       });
 
+      setMapCountries(data);
       setTableData(sortData(data, 'cases', 'DESC'));
       setCountries(trimmedData);
     };
@@ -70,7 +72,7 @@ function App() {
     setCountry(countryName);
     setCountryInfo(data);
     setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
-    setmapZoom(3);
+    setmapZoom(4);
   };
 
   return (
