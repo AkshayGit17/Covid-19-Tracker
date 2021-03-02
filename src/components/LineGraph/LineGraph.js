@@ -66,17 +66,17 @@ const buildChartData = (data, type) => {
   return chartData;
 };
 
-function LineGraph({ type = 'cases' }) {
+function LineGraph({ className, type = 'cases' }) {
   const [data, setdata] = useState([]);
 
   useEffect(() => {
     fetch('https://disease.sh/v3/covid-19/historical/all?lastdays=120')
       .then((response) => response.json())
       .then((data) => setdata(buildChartData(data, type)));
-  }, []);
+  }, [type]);
 
   return (
-    <div>
+    <div className={className}>
       <Line
         options={options}
         data={{

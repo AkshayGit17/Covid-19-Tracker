@@ -8,7 +8,6 @@
 }
 
 .infoBox__today {
-  color: #cc1034;
   font-weight: 600;
   font-size: 1.75rem;
   margin-bottom: 0.5rem;
@@ -19,4 +18,29 @@
   font-weight: 700 !important;
   font-size: 0.8rem !important;
   margin-top: 15px !important;
+}
+
+.infobox--selected {
+  border-top: 10px;
+  border-top-style: solid;
+}
+
+.infobox--cases {
+  border-top-color: red;
+}
+.infobox--recovered {
+  border-top-color: greenyellow;
+}
+.infobox--deaths {
+  border-top-color: #6c757d;
+}
+
+.infoBox__today--cases {
+  color: #cc1034;
+}
+.infoBox__today--recovered {
+  color: lightgreen;
+}
+.infoBox__today--deaths {
+  color: #6c757d;
 }

@@ -8,6 +8,7 @@ import {
 } from 'react-leaflet';
 import './Map.css';
 
+/* different colors for circles based on type */
 const casesTypeColors = {
   cases: {
     hex: '#CC1034',
@@ -25,6 +26,7 @@ const casesTypeColors = {
   },
 };
 
+/* functionality for showing circles and tooltip */
 const showDataOnMap = (countries, type = 'cases') => {
   return countries.map((country) => (
     <Circle
@@ -54,6 +56,7 @@ const showDataOnMap = (countries, type = 'cases') => {
 
 function Map({ center, zoom, countries, type }) {
   function ChangeView({ center, zoom }) {
+    //functionality for changing the map view based on country selection
     const map = useMap();
     map.setView(center, zoom);
     return null;

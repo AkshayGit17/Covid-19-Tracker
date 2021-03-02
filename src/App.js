@@ -21,7 +21,7 @@ function App() {
   const [countryInfo, setCountryInfo] = useState({}); //used to hold the selected country info
   const [tableData, setTableData] = useState([]); //used to hold all the countries to populate in the table
   const [mapCenter, setMapCenter] = useState([34.8076, -40.4796]); //used to hold selected countries lat nd long
-  const [mapZoom, setmapZoom] = useState(3); //used to hold zoom value of the map
+  const [mapZoom, setmapZoom] = useState(4); //used to hold zoom value of the map
   const [mapCountries, setMapCountries] = useState([]);
   const [type, setType] = useState('cases');
 
@@ -74,7 +74,7 @@ function App() {
     setCountry(countryName);
     setCountryInfo(data);
     setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
-    setmapZoom(3);
+    setmapZoom(4);
   };
 
   return (
@@ -104,9 +104,11 @@ function App() {
         <div className='app__stats'>
           {/* Infobox for Cases*/}
           <InfoBox
+            active={type === 'cases'}
             click={() => {
               setType('cases');
             }}
+            activeClasses='infobox--selected infobox--cases'
             title='Coronavirus Cases'
             today={prettyPrintStat(countryInfo.todayCases)}
             total={prettyPrintStat(countryInfo.cases)}
@@ -114,20 +116,24 @@ function App() {
 
           {/* Infobox for Recoveries*/}
           <InfoBox
+            active={type === 'recovered'}
             click={() => {
               setType('recovered');
             }}
             title='Recovered'
+            activeClasses='infobox--selected infobox--recovered'
             today={prettyPrintStat(countryInfo.todayRecovered)}
             total={prettyPrintStat(countryInfo.recovered)}
           />
 
           {/* Infobox for Deaths*/}
           <InfoBox
+            active={type === 'deaths'}
             click={() => {
               setType('deaths');
             }}
             title='Deaths'
+            activeClasses='infobox--selected infobox--deaths'
             today={prettyPrintStat(countryInfo.todayDeaths)}
             total={prettyPrintStat(countryInfo.deaths)}
           />
@@ -147,8 +153,8 @@ function App() {
           <h3>Live Cases by Country</h3>
           <Table countries={tableData} />
           {/* Graph */}
-          <h3>WorldWide new cases</h3>
-          <LineGraph className='app__graph' />
+          <h3 className='app__graphtitle'>WorldWide new {type}</h3>
+          <LineGraph className='app__graph' type={type} />
         </CardContent>
       </Card>
     </div>
